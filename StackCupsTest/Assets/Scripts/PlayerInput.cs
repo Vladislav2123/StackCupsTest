@@ -3,10 +3,13 @@ using UnityEngine;
 
 public class PlayerInput : MonoBehaviour
 {
-    public event Action OnClick;
+    public event Action OnStartTap;
+    public event Action OnEndTap;
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) OnClick?.Invoke();
+
+        if (Input.GetMouseButtonDown(0)) OnStartTap?.Invoke();
+        if (Input.GetMouseButtonUp(0)) OnEndTap?.Invoke();
     }
 }

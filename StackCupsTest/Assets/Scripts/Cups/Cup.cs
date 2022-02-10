@@ -1,18 +1,38 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class Cup : MonoBehaviour
 {
+    [SerializeField] private ColorsData _colorsData;
+
+    private Rigidbody _rigidbody;
     private Transform _cupModel;
 
     private const float DEFAULT_CUP_X_ROTATION = 180;
 
+    private void Awake()
+    {
+        _rigidbody = GetComponent<Rigidbody>();
+        _cupModel = transform.GetChild(0);
+    }
 
-    private void Awake() => _cupModel = transform.GetChild(0);
+    private void Start()
+    {
+        _rigidbody.isKinematic = true;
+        SetRandomColor();
+    }
 
-    public void Jump(Vector3 endPosition, AnimationCurve jumpCurve, float duration) => StartCoroutine(JumpRoutine(endPosition, jumpCurve, duration));
+    private void SetRandomColor()
+    {
+        int colorsCount = _colorsData.Colors.Length;
+        int randomColorIndex = Random.Range(0, colorsCount);
+        _cupModel.GetComponent<MeshRenderer>().material.color = _colorsData.Colors[randomColorIndex];
+    }
 
-    private IEnumerator JumpRoutine(Vector3 endPosition, AnimationCurve jumpCurve, float duration)
+    public void Jump(Vector3 endPosition, AnimationCurve jumpCurve, float duration, bool isAbyss) => StartCoroutine(JumpRoutine(endPosition, jumpCurve, duration, isAbyss));
+
+    private IEnumerator JumpRoutine(Vector3 endPosition, AnimationCurve jumpCurve, float duration, bool isAbyss)
     {
         Vector3 originPosition = transform.position;
 
@@ -34,5 +54,7 @@ public class Cup : MonoBehaviour
 
         transform.position = endPosition;
         _cupModel.eulerAngles = new Vector3(DEFAULT_CUP_X_ROTATION, 0, 0);
+
+        if (isAbyss) _rigidbody.isKinematic = false;
     }
 }
