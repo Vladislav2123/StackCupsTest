@@ -18,7 +18,7 @@ namespace Architecture.LevelManager
 
         public static void LoadLastLoadedLevel()
         {
-            int lastLoadedLevelIndex = PlayerPrefs.GetInt(LAST_LOADED_LEVEL_KEY, 0);
+            int lastLoadedLevelIndex = PlayerPrefs.GetInt(LAST_LOADED_LEVEL_KEY, 1);
             LoadScene(lastLoadedLevelIndex);
         }
 

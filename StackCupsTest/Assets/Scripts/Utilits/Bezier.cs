@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Bezier
+public struct Bezier
 {
     private Vector3 _p0;
     private Vector3 _p1;
